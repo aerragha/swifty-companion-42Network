@@ -27,7 +27,11 @@ const SearchUser = ({ navigation }) => {
         justifyContent: landscape ? "flex-start" : "center",
         paddingTop: landscape ? 50 : 0,
       }}
-      source={require("../assets/background.jpg")}>
+      source={
+        landscape
+          ? require("../assets/background2.jpg")
+          : require("../assets/background.jpg")
+      }>
       <TextInput
         value={login}
         style={styles.input}
@@ -43,11 +47,6 @@ const SearchUser = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  // image: {
-  //   flex: 1,
-  //   alignItems: "center",
-  //   justifyContent: landscape ? "flex-start" : "center",
-  // },
   input: {
     width: "80%",
     height: 50,
