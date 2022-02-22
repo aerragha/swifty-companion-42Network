@@ -15,10 +15,9 @@ export default function App() {
           screenOptions={{
             headerShown: false,
           }}>
-          <Stack.Screen name="SearchUser" component={SearchUser} />
           <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="SearchUser" component={SearchUser} />
         </Stack.Navigator>
-        {/* <SearchUser /> */}
       </SafeAreaView>
     </NavigationContainer>
   );
