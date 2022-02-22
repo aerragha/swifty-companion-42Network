@@ -14,7 +14,6 @@ const SearchUser = ({ navigation }) => {
 
   const onChange = (textValue) => setLogin(textValue);
   const onPress = () => {
-    console.log("login", login);
     navigation.navigate("Profile", { login });
   };
 
