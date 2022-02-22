@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import userData from "./intra_profile.json";
 import PercentageBar from "../components/PercentageBar";
+import ProjectsSection from "../components/Projects";
 
 const Profile = ({ navigation, route }) => {
   // const { login } = route.params;
@@ -33,6 +34,31 @@ const Profile = ({ navigation, route }) => {
           />
           <Text style={styles.name}>{userData.usual_full_name}</Text>
           <Text style={styles.login}>{userData.login}</Text>
+        </View>
+      </View>
+
+      <View style={styles.profileDetailCursus}>
+        <View
+          style={{
+            margin: 10,
+            flexDirection: "row",
+          }}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "flex-start",
+            }}>
+            <Text style={styles.title}>Cursus:</Text>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              width: "20%",
+              justifyContent: "flex-end",
+            }}>
+            <ProjectsSection />
+          </View>
         </View>
       </View>
 
@@ -90,6 +116,7 @@ const Profile = ({ navigation, route }) => {
           </Text>
         </View>
       </View>
+
       <View style={styles.levelView}>
         {level ? (
           <PercentageBar
@@ -132,7 +159,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontWeight: "400",
   },
-  profileDetail: {
+  profileDetailCursus: {
     width: "100%",
     alignSelf: "center",
     marginTop: 260,
@@ -141,10 +168,19 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "#ffffff",
   },
+  profileDetail: {
+    width: "100%",
+    alignSelf: "center",
+    marginTop: 320,
+    alignItems: "center",
+    flexDirection: "row",
+    position: "absolute",
+    backgroundColor: "#ffffff",
+  },
   profileDetailSec: {
     width: "100%",
     alignSelf: "center",
-    marginTop: 325,
+    marginTop: 387,
     alignItems: "center",
     flexDirection: "row",
     position: "absolute",
@@ -153,7 +189,7 @@ const styles = StyleSheet.create({
   profileDetailNext: {
     width: "100%",
     alignSelf: "center",
-    marginTop: 390,
+    marginTop: 454,
     alignItems: "center",
     flexDirection: "row",
     position: "absolute",
@@ -172,7 +208,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   levelView: {
-    marginTop: 155,
+    marginTop: 220,
     width: "100%",
     justifyContent: "center",
   },
