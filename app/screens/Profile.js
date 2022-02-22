@@ -9,19 +9,50 @@ import {
 } from "react-native";
 import userData from "./intra_profile.json";
 import PercentageBar from "../components/PercentageBar";
-import ProjectsSection from "../components/Projects";
+import CursusPicker from "../components/CursusPicker";
+import { Ionicons } from "@expo/vector-icons";
 
 const Profile = ({ navigation, route }) => {
   // const { login } = route.params;
-  const [selecterCuresus, setSelecterCuresus] = useState(21);
+  const [selecterCursus, setSelecterCursus] = useState(21);
   const [level, setLevel] = useState(0);
+  const [percentage, setPercentage] = useState(0);
+  const [cursusList, setCursusList] = useState([]);
+
+  useEffect(() => {
+    setSelecterCursus(
+      userData.cursus_users[userData.cursus_users.length - 1].cursus_id
+    );
+    if (level.toString().split(".")[1])
+      setPercentage(level.toString().split(".")[1]);
+  }, []);
+
   useEffect(() => {
     setLevel(
       userData.cursus_users.find(
-        (cursus) => cursus.cursus_id === selecterCuresus
+        (cursus) => cursus.cursus_id === selecterCursus
       )?.level
     );
-  }, [selecterCuresus]);
+  }, [selecterCursus]);
+  useEffect(() => {
+    if (level.toString().split(".")[1])
+      setPercentage(level.toString().split(".")[1]);
+  }, [level]);
+
+  useEffect(() => {
+    let list = [];
+    for (let i = 0; i < userData.cursus_users.length; i++) {
+      list = [
+        ...list,
+        {
+          key: userData.cursus_users[i].cursus_id,
+          label: userData.cursus_users[i].cursus.name,
+        },
+      ];
+    }
+    setCursusList(list);
+  }, []);
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
@@ -57,7 +88,11 @@ const Profile = ({ navigation, route }) => {
               width: "20%",
               justifyContent: "flex-end",
             }}>
-            <ProjectsSection />
+            <CursusPicker
+              cursusList={cursusList}
+              selecterCursus={selecterCursus}
+              setSelecterCursus={setSelecterCursus}
+            />
           </View>
         </View>
       </View>
@@ -118,16 +153,20 @@ const Profile = ({ navigation, route }) => {
       </View>
 
       <View style={styles.levelView}>
-        {level ? (
-          <PercentageBar
-            height={20}
-            backgroundColor={"grey"}
-            completedColor={"#00CED1"}
-            percentage={`${level?.toString()?.split(".")[1]}%`}
-            level={level}
-          />
-        ) : null}
+        <PercentageBar
+          height={20}
+          backgroundColor={"grey"}
+          percentage={`${percentage}%`}
+          level={level}
+        />
       </View>
+      <Ionicons
+        name="arrow-back"
+        size={24}
+        color="white"
+        style={styles.backIcon}
+        onPress={() => navigation.goBack()}
+      />
     </ScrollView>
   );
 };
@@ -211,6 +250,11 @@ const styles = StyleSheet.create({
     marginTop: 220,
     width: "100%",
     justifyContent: "center",
+  },
+  backIcon: {
+    position: "absolute",
+    top: 15,
+    left: 15,
   },
 });
 export default Profile;
