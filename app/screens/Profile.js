@@ -105,6 +105,7 @@ const Profile = ({ navigation, route }) => {
   );
 };
 
+// projects status: [in_progress, finished, searching_a_group,]
 const styles = StyleSheet.create({
   header: {
     backgroundColor: "#000",
