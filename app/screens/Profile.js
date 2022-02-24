@@ -7,17 +7,15 @@ import {
   Linking,
   StyleSheet,
   ScrollView,
-  FlatList,
-  TouchableOpacity,
 } from "react-native";
 
 import userData from "./intra_profile.json";
 import PercentageBar from "../components/PercentageBar";
 import CursusPicker from "../components/CursusPicker";
 import Project from "../components/Project";
+import Skill from "../components/Skill";
 
 const Profile = ({ navigation, route }) => {
-  // const { login } = route.params;
   const [selecterCursus, setSelecterCursus] = useState(21);
   const [level, setLevel] = useState(0);
   const [percentage, setPercentage] = useState(0);
@@ -67,7 +65,7 @@ const Profile = ({ navigation, route }) => {
     setCursusList(list);
   }, []);
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} nestedScrollEnabled={true}>
       <View style={styles.header}>
         <View style={styles.headerContent}>
           <Image
@@ -164,7 +162,13 @@ const Profile = ({ navigation, route }) => {
           </Text>
         </View>
       </View>
-
+      <Ionicons
+        name="arrow-back"
+        size={24}
+        color="white"
+        style={styles.backIcon}
+        onPress={() => navigation.goBack()}
+      />
       <View style={styles.levelView}>
         <PercentageBar
           height={20}
@@ -177,7 +181,7 @@ const Profile = ({ navigation, route }) => {
       <View style={styles.profileDetailProj}>
         <View style={styles.detailContent}>
           <Text style={styles.title}>Projects:</Text>
-          <ScrollView style={styles.scrollViewStyle}>
+          <ScrollView style={styles.scrollViewStyle} nestedScrollEnabled={true}>
             {projects && projects.length
               ? projects.map((project) => (
                   <Project key={project.id} item={project} />
@@ -186,8 +190,7 @@ const Profile = ({ navigation, route }) => {
           </ScrollView>
         </View>
       </View>
-
-      {/* <View style={styles.profileDetailSkill}>
+      <View style={styles.profileDetailSkill} nestedScrollEnabled={true}>
         <View style={styles.detailContent}>
           <Text style={styles.title}>Skills:</Text>
           <ScrollView style={styles.scrollViewStyle}>
@@ -198,19 +201,11 @@ const Profile = ({ navigation, route }) => {
               : null}
           </ScrollView>
         </View>
-      </View> */}
-      <Ionicons
-        name="arrow-back"
-        size={24}
-        color="white"
-        style={styles.backIcon}
-        onPress={() => navigation.goBack()}
-      />
+      </View>
     </ScrollView>
   );
 };
 
-// projects status: [in_progress, finished, searching_a_group,]
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -282,10 +277,9 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     width: "100%",
     alignSelf: "center",
-    marginTop: 540,
+    marginTop: -25,
     alignItems: "center",
     flexDirection: "row",
-    position: "absolute",
     backgroundColor: "#ffffff",
   },
 
@@ -313,15 +307,14 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     alignSelf: "center",
   },
-  // profileDetailSkill: {
-  //   width: "100%",
-  //   alignSelf: "center",
-  //   marginTop: 800,
-  //   alignItems: "center",
-  //   flexDirection: "row",
-  //   position: "absolute",
-  //   backgroundColor: "#ffffff",
-  // },
+  profileDetailSkill: {
+    width: "100%",
+    alignSelf: "center",
+    marginTop: -6,
+    alignItems: "center",
+    flexDirection: "row",
+    backgroundColor: "#ffffff",
+  },
   backIcon: {
     position: "absolute",
     top: 15,
