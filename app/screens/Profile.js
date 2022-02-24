@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Ionicons } from "@expo/vector-icons";
 import {
   Text,
   View,
@@ -6,11 +7,14 @@ import {
   Linking,
   StyleSheet,
   ScrollView,
+  FlatList,
+  TouchableOpacity,
 } from "react-native";
+
 import userData from "./intra_profile.json";
 import PercentageBar from "../components/PercentageBar";
 import CursusPicker from "../components/CursusPicker";
-import { Ionicons } from "@expo/vector-icons";
+import Project from "../components/Project";
 
 const Profile = ({ navigation, route }) => {
   // const { login } = route.params;
@@ -18,6 +22,7 @@ const Profile = ({ navigation, route }) => {
   const [level, setLevel] = useState(0);
   const [percentage, setPercentage] = useState(0);
   const [cursusList, setCursusList] = useState([]);
+  const [projects, setProjects] = useState([]);
 
   useEffect(() => {
     setSelecterCursus(
@@ -33,7 +38,16 @@ const Profile = ({ navigation, route }) => {
         (cursus) => cursus.cursus_id === selecterCursus
       )?.level
     );
+    setProjects(
+      userData.projects_users.filter(
+        (project) =>
+          project.cursus_ids.includes(selecterCursus) &&
+          project.status === "finished" &&
+          !project.project.parent_id
+      )
+    );
   }, [selecterCursus]);
+
   useEffect(() => {
     if (level.toString().split(".")[1])
       setPercentage(level.toString().split(".")[1]);
@@ -52,7 +66,6 @@ const Profile = ({ navigation, route }) => {
     }
     setCursusList(list);
   }, []);
-
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
@@ -160,6 +173,32 @@ const Profile = ({ navigation, route }) => {
           level={level}
         />
       </View>
+
+      <View style={styles.profileDetailProj}>
+        <View style={styles.detailContent}>
+          <Text style={styles.title}>Projects:</Text>
+          <ScrollView style={styles.scrollViewStyle}>
+            {projects && projects.length
+              ? projects.map((project) => (
+                  <Project key={project.id} item={project} />
+                ))
+              : null}
+          </ScrollView>
+        </View>
+      </View>
+
+      {/* <View style={styles.profileDetailSkill}>
+        <View style={styles.detailContent}>
+          <Text style={styles.title}>Skills:</Text>
+          <ScrollView style={styles.scrollViewStyle}>
+            {projects && projects.length
+              ? projects.map((project) => (
+                  <Project key={project.id} item={project} />
+                ))
+              : null}
+          </ScrollView>
+        </View>
+      </View> */}
       <Ionicons
         name="arrow-back"
         size={24}
@@ -173,6 +212,10 @@ const Profile = ({ navigation, route }) => {
 
 // projects status: [in_progress, finished, searching_a_group,]
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    height: 1200,
+  },
   header: {
     backgroundColor: "#000",
   },
@@ -234,6 +277,18 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "#ffffff",
   },
+  profileDetailProj: {
+    margin: 10,
+    alignItems: "flex-start",
+    width: "100%",
+    alignSelf: "center",
+    marginTop: 540,
+    alignItems: "center",
+    flexDirection: "row",
+    position: "absolute",
+    backgroundColor: "#ffffff",
+  },
+
   detailContent: {
     margin: 10,
     alignItems: "flex-start",
@@ -251,6 +306,22 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
   },
+  scrollViewStyle: {
+    width: "98%",
+    height: 200,
+    marginTop: 10,
+    marginLeft: 5,
+    alignSelf: "center",
+  },
+  // profileDetailSkill: {
+  //   width: "100%",
+  //   alignSelf: "center",
+  //   marginTop: 800,
+  //   alignItems: "center",
+  //   flexDirection: "row",
+  //   position: "absolute",
+  //   backgroundColor: "#ffffff",
+  // },
   backIcon: {
     position: "absolute",
     top: 15,

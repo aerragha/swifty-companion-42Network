@@ -4,7 +4,6 @@ import { Text, View } from "react-native";
 const PercentageBar = ({ percentage, height, backgroundColor, level }) => {
   const [getheight, setHeight] = useState(height);
   const [getBackgroundColor, setBackgroundColor] = useState(backgroundColor);
-  console.log("percentage", percentage);
   return (
     <View style={{ justifyContent: "center" }}>
       <View
