@@ -8,7 +8,6 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-
 import userData from "./intra_profile.json";
 import PercentageBar from "../components/PercentageBar";
 import CursusPicker from "../components/CursusPicker";
@@ -21,6 +20,7 @@ const Profile = ({ navigation, route }) => {
   const [percentage, setPercentage] = useState(0);
   const [cursusList, setCursusList] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [skills, setSkills] = useState([])
 
   useEffect(() => {
     setSelecterCursus(
@@ -35,6 +35,11 @@ const Profile = ({ navigation, route }) => {
       userData.cursus_users.find(
         (cursus) => cursus.cursus_id === selecterCursus
       )?.level
+    );
+    setSkills(
+      userData.cursus_users.find(
+        (cursus) => cursus.cursus_id === selecterCursus
+      )?.skills
     );
     setProjects(
       userData.projects_users.filter(
@@ -194,9 +199,9 @@ const Profile = ({ navigation, route }) => {
         <View style={styles.detailContent}>
           <Text style={styles.title}>Skills:</Text>
           <ScrollView style={styles.scrollViewStyle} nestedScrollEnabled={true}>
-            {projects && projects.length
-              ? projects.map((project) => (
-                  <Skill key={project.id} item={project} />
+            {skills && skills.length
+              ? skills.map((skill) => (
+                  <Skill key={skill.id} item={skill} />
                 ))
               : null}
           </ScrollView>
@@ -314,6 +319,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     backgroundColor: "#ffffff",
+    marginBottom: 10,
+    paddingBottom: 10
   },
   backIcon: {
     position: "absolute",

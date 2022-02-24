@@ -4,10 +4,24 @@ import { View, StyleSheet, Text } from "react-native";
 const Skill = ({ item }) => {
   return (
     <View style={styles.box}>
-      <Text style={styles.username}>{item.project.name}</Text>
-      <View style={styles.iconContent}>
-        <Text style={styles.resultStyle}>{item.final_mark}</Text>
+      <Text style={styles.username}>{item.name}</Text>
+      <View style={{ width: "90%" }}>
       </View>
+      <View style={styles.iconContent}>
+        <Text style={styles.resultStyle}>{item.level?.toFixed(2)}</Text>
+      </View>
+      <View style={{
+        width: `${item.level * 100/20}%`,
+        height: 5,
+        backgroundColor: '#00babc',
+        position: 'absolute',
+        bottom: 0,
+        borderTopRightRadius: 5,
+        borderBottomRightRadius: 5,
+      }}>
+
+      </View>
+
     </View>
   );
 };
@@ -35,8 +49,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   iconContent: {
-    width: 40,
-    height: 40,
+    width: 60,
+    height: 45,
     marginLeft: "auto",
     justifyContent: "center",
     alignItems: "center",
