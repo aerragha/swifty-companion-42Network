@@ -190,13 +190,13 @@ const Profile = ({ navigation, route }) => {
           </ScrollView>
         </View>
       </View>
-      <View style={styles.profileDetailSkill} nestedScrollEnabled={true}>
+      <View style={styles.profileDetailSkill}>
         <View style={styles.detailContent}>
           <Text style={styles.title}>Skills:</Text>
-          <ScrollView style={styles.scrollViewStyle}>
+          <ScrollView style={styles.scrollViewStyle} nestedScrollEnabled={true}>
             {projects && projects.length
               ? projects.map((project) => (
-                  <Project key={project.id} item={project} />
+                  <Skill key={project.id} item={project} />
                 ))
               : null}
           </ScrollView>
