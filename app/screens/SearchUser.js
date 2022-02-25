@@ -26,6 +26,7 @@ const SearchUser = ({ navigation }) => {
   };
 
   const getData = async () => {
+    await AsyncStorage.removeItem("@token");
     if (!login || !login.trim() || login.length > 50)
       showAlert("Please enter a valid login");
     else {
@@ -33,7 +34,6 @@ const SearchUser = ({ navigation }) => {
 
       try {
         let token = await AsyncStorage.getItem("@token");
-        console.log("hnaaa1", token);
         // if there is no token, generate new one
         if (!token) {
           token = await generateToken();

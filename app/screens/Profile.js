@@ -8,7 +8,7 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import userData from "./intra_profile.json";
+// import userData from "./intra_profile.json";
 import PercentageBar from "../components/PercentageBar";
 import CursusPicker from "../components/CursusPicker";
 import Project from "../components/Project";
@@ -21,14 +21,14 @@ const Profile = ({ navigation, route }) => {
   const [cursusList, setCursusList] = useState([]);
   const [projects, setProjects] = useState([]);
   const [skills, setSkills] = useState([]);
-  // const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState(route.params.userData);
 
   useEffect(() => {
     setSelecterCursus(
       userData.cursus_users[userData.cursus_users.length - 1].cursus_id
     );
-    if (level.toString().split(".")[1])
-      setPercentage(level.toString().split(".")[1]);
+    if (level?.toString().split(".")[1])
+      setPercentage(level?.toString().split(".")[1]);
   }, []);
 
   useEffect(() => {
@@ -53,8 +53,8 @@ const Profile = ({ navigation, route }) => {
   }, [selecterCursus]);
 
   useEffect(() => {
-    if (level.toString().split(".")[1])
-      setPercentage(level.toString().split(".")[1]);
+    if (level?.toString().split(".")[1])
+      setPercentage(level?.toString().split(".")[1]);
   }, [level]);
 
   useEffect(() => {
@@ -140,7 +140,9 @@ const Profile = ({ navigation, route }) => {
       <View style={styles.profileDetailNext}>
         <View style={styles.detailContent}>
           <Text style={styles.title}>Location:</Text>
-          <Text style={styles.count}>{userData.location}</Text>
+          <Text style={styles.count}>
+            {userData.location ? userData.location : "Unavailable"}
+          </Text>
         </View>
         <View style={styles.detailContent}>
           <Text style={styles.title}>Wallet:</Text>
