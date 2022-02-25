@@ -11,7 +11,7 @@ import {
 import { useDeviceOrientation } from "@react-native-community/hooks";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // functions
-import { generateToken, checkToken } from "../api/apiHelpers";
+import { generateToken, checkToken, getUserData } from "../api/apiHelpers";
 
 const SearchUser = ({ navigation }) => {
   const [login, setLogin] = useState("");
@@ -25,39 +25,39 @@ const SearchUser = ({ navigation }) => {
     else Alert.alert("Error", "Something went wrong, try again later");
   };
 
-  const getUserData = async () => {
+  const getData = async () => {
     if (!login || !login.trim() || login.length > 50)
       showAlert("Please enter a valid login");
     else {
       setIsLoading(true);
 
       try {
-        // await AsyncStorage.removeItem("@token");
-        const token = await AsyncStorage.getItem("@token");
-
+        let token = await AsyncStorage.getItem("@token");
+        console.log("hnaaa1", token);
         // if there is no token, generate new one
         if (!token) {
-          const token = await generateToken();
+          token = await generateToken();
           await AsyncStorage.setItem("@token", token);
         }
-
         // check the token if it's expired, if it's expired, generate new one
         const tokenInfo = await checkToken(token);
         if (
           !tokenInfo.expires_in_seconds ||
           tokenInfo.expires_in_seconds < 60
         ) {
-          const newToken = await generateToken();
-          await AsyncStorage.setItem("@token", newToken);
+          token = await generateToken();
+          await AsyncStorage.setItem("@token", token);
         }
 
         // if everything is ok, get user data
-        const res = await getUserData(login);
-        if (res.status === "success") {
+        const result = await getUserData(login.toLowerCase(), token);
+
+        if (result.status === "success") {
           setIsLoading(false);
-          navigation.navigate("Profile", { userData: res.data });
+          setLogin("");
+          navigation.navigate("Profile", { userData: result.data });
         } else {
-          showAlert(res.msg);
+          showAlert(result.msg);
           setIsLoading(false);
         }
       } catch (error) {
@@ -90,7 +90,9 @@ const SearchUser = ({ navigation }) => {
       />
       <Pressable
         style={styles.button}
-        onPress={getUserData}
+        onPress={async () => {
+          await getData();
+        }}
         disabled={isLoading}>
         <Text style={styles.btnText}>
           {isLoading ? (

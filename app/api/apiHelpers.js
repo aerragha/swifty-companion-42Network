@@ -34,18 +34,16 @@ export const checkToken = (token) =>
     Api(token)
       .get("/oauth/token/info")
       .then((res) => {
-        console.log("success", res.data);
         resolve(res.data);
       })
       .catch((err) => resolve(err.response.data));
   });
 
-export const getUserData = (login) =>
+export const getUserData = (login, token) =>
   new Promise((resolve, reject) => {
     Api(token)
       .get(`/v2/users/${login}`)
       .then((res) => {
-        console.log("success", res.data);
         resolve({ status: "success", data: res.data });
       })
       .catch((err) => {
