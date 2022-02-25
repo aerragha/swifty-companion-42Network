@@ -26,7 +26,6 @@ const SearchUser = ({ navigation }) => {
   };
 
   const getData = async () => {
-    await AsyncStorage.removeItem("@token");
     if (!login || !login.trim() || login.length > 50)
       showAlert("Please enter a valid login");
     else {
