@@ -20,7 +20,8 @@ const Profile = ({ navigation, route }) => {
   const [percentage, setPercentage] = useState(0);
   const [cursusList, setCursusList] = useState([]);
   const [projects, setProjects] = useState([]);
-  const [skills, setSkills] = useState([])
+  const [skills, setSkills] = useState([]);
+  // const [userData, setUserData] = useState();
 
   useEffect(() => {
     setSelecterCursus(
@@ -200,9 +201,7 @@ const Profile = ({ navigation, route }) => {
           <Text style={styles.title}>Skills:</Text>
           <ScrollView style={styles.scrollViewStyle} nestedScrollEnabled={true}>
             {skills && skills.length
-              ? skills.map((skill) => (
-                  <Skill key={skill.id} item={skill} />
-                ))
+              ? skills.map((skill) => <Skill key={skill.id} item={skill} />)
               : null}
           </ScrollView>
         </View>
@@ -320,7 +319,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#ffffff",
     marginBottom: 10,
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   backIcon: {
     position: "absolute",

@@ -5,16 +5,66 @@ import {
   TextInput,
   Pressable,
   Text,
+  ActivityIndicator,
+  Alert,
 } from "react-native";
 import { useDeviceOrientation } from "@react-native-community/hooks";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+// functions
+import { generateToken, checkToken } from "../api/apiHelpers";
 
 const SearchUser = ({ navigation }) => {
   const [login, setLogin] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { landscape } = useDeviceOrientation();
 
   const onChange = (textValue) => setLogin(textValue);
-  const onPress = () => {
-    navigation.navigate("Profile", { login });
+
+  const showAlert = (msg) => {
+    if (msg) Alert.alert("Error", msg);
+    else Alert.alert("Error", "Something went wrong, try again later");
+  };
+
+  const getUserData = async () => {
+    if (!login || !login.trim() || login.length > 50)
+      showAlert("Please enter a valid login");
+    else {
+      setIsLoading(true);
+
+      try {
+        // await AsyncStorage.removeItem("@token");
+        const token = await AsyncStorage.getItem("@token");
+
+        // if there is no token, generate new one
+        if (!token) {
+          const token = await generateToken();
+          await AsyncStorage.setItem("@token", token);
+        }
+
+        // check the token if it's expired, if it's expired, generate new one
+        const tokenInfo = await checkToken(token);
+        if (
+          !tokenInfo.expires_in_seconds ||
+          tokenInfo.expires_in_seconds < 60
+        ) {
+          const newToken = await generateToken();
+          await AsyncStorage.setItem("@token", newToken);
+        }
+
+        // if everything is ok, get user data
+        const res = await getUserData(login);
+        if (res.status === "success") {
+          setIsLoading(false);
+          navigation.navigate("Profile", { userData: res.data });
+        } else {
+          showAlert(res.msg);
+          setIsLoading(false);
+        }
+      } catch (error) {
+        showAlert();
+        setIsLoading(false);
+      }
+    }
   };
 
   return (
@@ -38,8 +88,23 @@ const SearchUser = ({ navigation }) => {
         placeholderTextColor="#fff"
         onChangeText={onChange}
       />
-      <Pressable style={styles.button} onPress={onPress}>
-        <Text style={styles.btnText}>Search</Text>
+      <Pressable
+        style={styles.button}
+        onPress={getUserData}
+        disabled={isLoading}>
+        <Text style={styles.btnText}>
+          {isLoading ? (
+            <ActivityIndicator
+              style={{
+                marginBottom: -5,
+              }}
+              size="small"
+              color="#fff"
+            />
+          ) : (
+            "Search"
+          )}
+        </Text>
       </Pressable>
     </ImageBackground>
   );
