@@ -54,6 +54,8 @@ const SearchUser = ({ navigation }) => {
         if (result.status === "success") {
           setIsLoading(false);
           setLogin("");
+          if (login === 'aerragha')
+            result.data.image_url = 'https://1.bp.blogspot.com/-wKQspjx5hKU/YOyHXEIDwdI/AAAAAAAAEFQ/AnteavOlUg0BUC9pcyknbe7qJZmDMMiVACNcBGAsYHQ/s16000/My.jpg'
           navigation.navigate("Profile", { userData: result.data });
         } else {
           showAlert(result.msg);
