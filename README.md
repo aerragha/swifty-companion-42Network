@@ -12,7 +12,7 @@ This project aims to make you familiar with :
 
 ## Stack and services
 
-- Ract Native
+- React Native
 - Expo
 - 42 API
 
