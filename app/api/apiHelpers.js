@@ -19,9 +19,9 @@ export const generateToken = () =>
     const credentials = {
       grant_type: "client_credentials",
       client_id:
-        "801d15cf5feeced3cd738783b3efe1507a254de08be022654b8b3277ddd92dda",
+        "--- client ID ---",
       client_secret:
-        "49a404ad77ce0ea9018bb3cdb02136d86d5b8a393d4d8019b9c7b262d25ddbb9",
+        "--- client_secret ---",
     };
     Api()
       .post("/oauth/token", querystring.stringify(credentials))
